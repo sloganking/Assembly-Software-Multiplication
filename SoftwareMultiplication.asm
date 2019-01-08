@@ -23,11 +23,17 @@ multiply:
 
 	PUSH 0		;declare output variable
 
-	
-	
+	; Put first variable in C
+	MOV A, B
+	MOV C, [A]	;stores in C
 
-	
-	
+	; Put second variable in D
+	MOV A, B
+	SUB A, 1	;2nd variable
+	MOV D, [A]	;stores in D
+
+	;multiply
+	SHL D, 7
 
 	;return a variable
 	MOV A, B
@@ -44,4 +50,5 @@ main:
 	PUSH 5
 	PUSH 3
 	CALL multiply
+	ADD SP, 1	;get rid of non returned arguments
 	HLT
