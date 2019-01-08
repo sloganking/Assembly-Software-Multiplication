@@ -4,7 +4,7 @@
 	MOV B, SP	; initialize base pointer
 	JMP main
 
-multiply:
+multiply(int, int):
 	; Push BP to stack and then create new Stack frame
 	PUSH B
 	MOV B, SP
@@ -49,6 +49,6 @@ multiply:
 main:
 	PUSH 5
 	PUSH 3
-	CALL multiply
+	CALL multiply(int, int)
 	ADD SP, 1	;get rid of non returned arguments
 	HLT
