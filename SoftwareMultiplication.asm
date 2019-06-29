@@ -19,6 +19,7 @@ multiply:
 	JZ dontAdd	; if 1, add
 	ADD D, [varB]
 dontAdd:
+	
 	MOV A, [varA]	;shift varA right by 1
 	SHR A, 1
 	MOV [varA], A
@@ -26,15 +27,11 @@ dontAdd:
 	JNZ moreToGo	;if(done) return
 	RET
 moreToGo:
-
 	MOV A, [varB]	;shift varB left by 1
 	SHL A, 1
 	MOV [varB], A
 
-	INC C		;for loop comparison "for(i=0; i<8; i++)"
-	CMP C, 8
-	JNZ .multiplyLoop
-	RET
+	JMP .multiplyLoop
 
 main:
 	MOV [varA], 21
