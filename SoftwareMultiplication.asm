@@ -1,54 +1,39 @@
-;A = arg
-;B = base pointer
+;software multiplication program
+;arguments are stored in global variables
+;result is returned in register D
 
-	MOV B, SP	; initialize base pointer
 	JMP main
 
+;global variables
+varA:
+	DB 0
+varB:
+	DB 0
+
 multiply:
-	; Push BP to stack and then create new Stack frame
-	PUSH B
-	MOV B, SP
+	MOV C, 0
+	MOV D, 0
+.multiplyLoop:
+	MOV A, [varA]
+	AND A, 1
+	JZ dontAdd	; if 1, add
+	ADD D, [varB]
+dontAdd:
+	MOV A, [varA]	;shift varA right by 1
+	SHR A, 1
+	MOV [varA], A
 
-	; Declare local variable, equal to first argument
-	MOV A, B
-	ADD A, 4
-	MOV A, [A]
-	PUSH A
+	MOV A, [varB]	;shift varB left by 1
+	SHL A, 1
+	MOV [varB], A
 
-	; Declare local variable, equal to second argument
-	MOV A, B
-	ADD A, 3
-	MOV A, [A]
-	PUSH A
-
-	PUSH 0		;declare output variable
-
-	; Put first variable in C
-	MOV A, B
-	MOV C, [A]	;stores in C
-
-	; Put second variable in D
-	MOV A, B
-	SUB A, 1	;2nd variable
-	MOV D, [A]	;stores in D
-
-	;multiply
-	SHL D, 7
-
-	;return a variable
-	MOV A, B
-	ADD A, 4	;get address of first argument and set in A
-	MOV [A], D	;returns D
-
-	; leave
-	MOV SP, B 
-	POP B
-
+	INC C		;for loop comparison "for(i=0; i<8; i++)"
+	CMP C, 8
+	JNZ .multiplyLoop
 	RET
-	
+
 main:
-	PUSH 5
-	PUSH 3
+	MOV [varA], 21
+	MOV [varB], 3
 	CALL multiply
-	ADD SP, 1	;get rid of non returned arguments
 	HLT
