@@ -19,7 +19,6 @@ multiply:
 	JZ dontAdd	; if 1, add
 	ADD D, [varB]
 dontAdd:
-	
 	MOV A, [varA]	;shift varA right by 1
 	SHR A, 1
 	MOV [varA], A
